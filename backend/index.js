@@ -5,7 +5,10 @@ const app = express();
 require('dotenv').config();
 
 // Middleware
-app.use(cors());
+// Middleware
+app.use(cors({
+  origin: 'http://localhost:3000' // Change this to your frontend's deployed URL when you deploy it
+}));
 app.use(express.json());
 
 // Database connection
