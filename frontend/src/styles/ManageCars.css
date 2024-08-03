@@ -1,0 +1,94 @@
+.animated-button {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background-color: #34db5b;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .plus-icon {
+    position: absolute;
+    font-size: 32px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .button-text {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .animated-button.hovered {
+    width: 160px; /* Expanded width to fit text */
+    height: 60px; /* Maintain height */
+  }
+  
+  .animated-button.hovered .plus-icon {
+    transform: translateX(50px); /* Move the plus sign to the right */
+  }
+  
+  .animated-button.hovered .button-text {
+    opacity: 1; /* Make text visible */
+    transform: scale(1); /* Scale the text to full size */
+  }
+  /* Target the table header row */
+/* styles.css */
+table th {
+  background-color: #333;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+}
+
+/* ... other styles ... */
+
+/* Style the sorting buttons */
+th button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  width: 100%; /* Ensure button covers the entire header cell */
+}
+
+/* Style the sorting indicators */
+th span {
+  float: right; /* Position the indicators to the right */
+  margin-right: 5px; /* Add spacing between text and icons */
+}
+th {
+  cursor: pointer;
+  position: relative; /* Necessary for absolute positioning of indicators */
+}
+
+th:hover {
+  background-color: #444;
+}
+
+th span {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 12px;
+}
+.sort-icon {
+  font-size: 12px;
+  margin-left: 5px;
+  color: #aaa;
+}
+
+/* ... other styles ... */

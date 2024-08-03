@@ -1,0 +1,109 @@
+body {
+  background: linear-gradient(to right, #577ae4, #5f57a5);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+  min-height: 100vh;
+  margin: 0;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.container {
+  padding-top: 50px;
+}
+
+
+.navbar-brand {
+  color: #fff !important;
+}
+
+.navbar-nav .nav-link {
+  color: #fff !important;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ccc !important;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 10px 20px;
+  font-size: 1.2em;
+}
+
+h1, h2 {
+  color: #343a40;
+}
+
+.form-control {
+  border-radius: 5px;
+  padding: 15px;
+  font-size: 1.1em;
+  background-color: #2f303a; /* Dark background */
+  color: #fff; /* Light text color */
+  border: 1px solid #ccc; /* Optional border */
+}
+
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+ 
+}
+input{
+  background-color: #ccc;
+}
+
+.search-bar input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.search-bar label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.text-white {
+  color: white;
+}
+
+.table {
+  background-color: #2f303a; /* Dark background */
+  color: #fff; /* Light text color */
+  border-collapse: collapse; /* Remove borders between cells */
+  border: 1px solid #444; /* Optional outer border */
+  border-radius: 5px; /* Rounded corners */
+  width: 100%; /* Ensure full width */
+}
+
+.table th,
+.table td {
+  padding: 1rem;
+  border: 1px solid #444; /* Cell borders */
+  text-align: left; /* Left-align content */
+}
+
+.table thead th {
+  background-color: #343a40; /* Slightly darker header background */
+  color: #fff; /* Lighter text for header */
+  text-transform: uppercase; /* Capitalize header text */
+  font-weight: bold; /* Bold header text */
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #222; /* Alternate row background color */
+}
+

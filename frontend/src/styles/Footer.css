@@ -1,0 +1,19 @@
+
+/* Footer Styling */
+footer {
+    background: linear-gradient(to right, #2d2d31, #010007);
+    /* Match the header background or use a different color */
+    color: #fff;
+    padding: 0.5rem;
+    text-align: center;
+    /* position: fixed; Ensure it stays relative to the page content */
+    bottom: 0;
+    margin-top: 2rem;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width */
+    animation: fadeIn 1s ease-in forwards; /* Added animation */
+}
+
+footer p {
+    margin: 0;
+}

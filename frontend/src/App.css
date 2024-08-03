@@ -1,0 +1,47 @@
+body {
+  background: linear-gradient(to bottom right, #22222a, #010007);
+  background-size: 400% 400%;
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+
+
+/* Rest of your CSS */
+
+
+
+
+
+.navbar-brand {
+  color: #fff !important;
+}
+
+.navbar-nav .nav-link {
+  color: #fff !important;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ccc !important;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 10px 20px;
+  font-size: 1.2em;
+}
+
+h1, h2 {
+  color: #343a40;
+}
+
+.form-control {
+  border-radius: 5px;
+  padding: 15px;
+  font-size: 1.1em;
+}
+
+.btn {
+  border-radius: 5px;
+}
