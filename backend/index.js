@@ -10,7 +10,9 @@ app.use(cors({
   origin: 'http://localhost:3000' // Change this to your frontend's deployed URL when you deploy it
 }));
 app.use(express.json());
-
+app.get("/",(req,res)=>{
+  res.send("Hello World to AdminDash Backend");
+})
 // Database connection
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
