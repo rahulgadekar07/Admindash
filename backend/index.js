@@ -7,7 +7,7 @@ require('dotenv').config();
 // Middleware
 // Middleware
 app.use(cors({
-  origin: 'https://admindash-x29m.onrender.com' // Change this to your frontend's deployed URL when you deploy it
+  origin: 'http://localhost:3000' // Change this to your frontend's deployed URL when you deploy it
 }));
 app.use(express.json());
 

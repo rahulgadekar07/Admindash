@@ -8,11 +8,14 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // State for loading indicator
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Set loading state to true before making request
+
     try {
       const response = await axios.post(`${apiUrl}/api/auth/login`, { username, password });
       localStorage.setItem('token', response.data.token);
@@ -25,6 +28,8 @@ const Login = () => {
       } else {
         setMessage('An error occurred. Please try again later.');
       }
+    } finally {
+      setIsLoading(false); // Set loading state to false after request completes
     }
   };
 
@@ -55,7 +60,13 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">Login</button>
+          <button type="submit" className="btn btn-primary" disabled={isLoading}>
+            {isLoading ? (
+              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            ) : (
+              'Login'
+            )}
+          </button>
           <button className="btn btn-link" onClick={() => navigate('/register')}>Register</button>
         </form>
         {message && <p className="mt-3 text-danger">{message}</p>}

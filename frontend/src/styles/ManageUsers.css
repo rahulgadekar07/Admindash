@@ -48,4 +48,22 @@
     border-radius: 15px;
     z-index: 10; /* Ensures the modal is above other elements */
   }
+  .spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: .25rem solid #f0f0f0; /* Light gray border color */
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin .75s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
   

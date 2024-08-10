@@ -10,17 +10,18 @@ const Register = () => {
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);   
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // State for loading indicator
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const handleShowPassword   
- = () => {
+  const handleShowPassword = () => {
     setShowPassword(!showPassword); // Toggle showPassword state
   };
+
   const handleUsernameChange = (e) => {
     const value = e.target.value;
     setUsername(value);
-  
+
     if (value.match(/[^a-zA-Z0-9]/)) {
       setUsernameError('Username can only contain letters and numbers');
     } else if (value.length < 3) {
@@ -31,20 +32,18 @@ const Register = () => {
       setUsernameError('');
     }
   };
-  
-  
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setPassword(value);
-  
+
     const hasNumber = /\d/.test(value);
     const hasLowerCase = /[a-z]/.test(value);
     const hasUpperCase = /[A-Z]/.test(value);
     const hasSpecialChar = /[!@#$%^&*()_+]/g.test(value); // Adjust special characters as needed
-  
+
     let errorMessage = '';
-  
+
     if (value.length < 8) {
       errorMessage = 'Password must be at least 8 characters long';
     } else if (!hasNumber) {
@@ -56,18 +55,19 @@ const Register = () => {
     } else if (!hasSpecialChar) {
       errorMessage = 'Password must contain at least one special character';
     }
-  
+
     setPasswordError(errorMessage);
   };
-  
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // if (usernameError || passwordError) {
-    //   setMessage('Please fix the errors before submitting');
-    //   return;
-    // }
+    if (usernameError || passwordError) {
+      setMessage('Please fix the errors before submitting');
+      return;
+    }
+
+    setIsLoading(true); // Set loading state to true before making request
 
     try {
       const response = await axios.post(`${apiUrl}/api/auth/register`, {
@@ -84,6 +84,8 @@ const Register = () => {
       } else {
         setMessage('Registration failed. Please try again.'); // Generic error message
       }
+    } finally {
+      setIsLoading(false); // Set loading state to false after request completes
     }
   };
 
@@ -128,26 +130,32 @@ const Register = () => {
   </div>
 </div>
 
-        <div className="mb-3 text-light">
-          <label htmlFor="role" className="form-label">Role</label>
-          <select
-            id="role"
-            className="form-control"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-        <button type="submit" className="btn btn-primary">Register</button>
-        <button className="btn btn-link" onClick={() => navigate('/login')}>
-          Login
-        </button>
-      </form>
-      {message && <p className="mt-3 text-danger">{message}</p>}
-    </div>
-  );
+<div className="mb-3 text-light">
+  <label htmlFor="role" className="form-label">Role</label>
+  <select
+    id="role"
+    className="form-control"
+    value={role}
+    onChange={(e) => setRole(e.target.value)}
+  >
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select>
+</div>
+<button type="submit" className="btn btn-primary" disabled={isLoading}>
+  {isLoading ? (
+    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  ) : (
+    'Register'
+  )}
+</button>
+<button className="btn btn-link" onClick={() => navigate('/login')}>
+  Login
+</button>
+</form>
+{message && <p className="mt-3 text-danger">{message}</p>}
+</div>
+);
 };
 
 export default Register;

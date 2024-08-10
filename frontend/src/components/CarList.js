@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/CarList.css";
+
 const CarList = () => {
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
@@ -9,16 +10,16 @@ const CarList = () => {
   const [maxYear, setMaxYear] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // State for loading indicator
   const apiUrl = process.env.REACT_APP_API_URL;
-  
+
   useEffect(() => {
     const fetchCars = async () => {
-      const response = await axios.get(
-        `${apiUrl}/api/cars/getCars`
-      );
-      
+      setIsLoading(true); // Set loading to true before making request
+      const response = await axios.get(`${apiUrl}/api/cars/getCars`);
       setCars(response.data);
       setFilteredCars(response.data);
+      setIsLoading(false); // Set loading to false after receiving data
     };
     fetchCars();
   }, []);
@@ -79,24 +80,30 @@ const CarList = () => {
             />
           </div>
         </div>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Manufacturing Year</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredCars.map((car) => (
-              <tr key={car._id}>
-                <td>{car.name}</td>
-                <td>{car.manufacturingYear}</td>
-                <td>{car.price}</td>
+        {isLoading ? (
+          <div className="text-center mt-5">
+            <span className="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
+          </div>
+        ) : (
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Manufacturing Year</th>
+                <th>Price</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredCars.map((car) => (
+                <tr key={car._id}>
+                  <td>{car.name}</td>
+                  <td>{car.manufacturingYear}</td>
+                  <td>{car.price}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

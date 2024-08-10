@@ -10,14 +10,17 @@ const ManageUsers = () => {
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  const [isLoading, setIsLoading] = useState(true); // State for loading indicator
+
   const fetchUsers = async () => {
+    setIsLoading(true); // Set loading to true before making request
     try {
-      const response = await axios.get(
-        `${apiUrl}/api/auth/getUsers`
-      );
+      const response = await axios.get(`${apiUrl}/api/auth/getUsers`);
       setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
+    } finally {
+      setIsLoading(false); // Set loading to false after receiving data (or error)
     }
   };
 
@@ -28,9 +31,7 @@ const ManageUsers = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(
-        `${apiUrl}/api/auth/deleteUser/${userIdToDelete}`
-      );
+      await axios.delete(`${apiUrl}/api/auth/deleteUser/${userIdToDelete}`);
       fetchUsers(); // Refresh the list after deleting a user
       setShowConfirmModal(false); // Close confirmation modal after confirmation
     } catch (error) {
@@ -41,9 +42,11 @@ const ManageUsers = () => {
   const cancelDelete = () => {
     setShowConfirmModal(false); // Close confirmation modal on cancel
   };
+
   const handleMangeCars = () => {
     navigate("/manage-cars");
   };
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -53,47 +56,46 @@ const ManageUsers = () => {
       <div className="d-flex justify-content-between">
         <h1 className="text-warning">Manage Users</h1>
         <div>
-          {" "}
-          <button className="btn  btn-warning" onClick={handleMangeCars}>
+          <button className="btn btn-warning" onClick={handleMangeCars}>
             Manage Cars
           </button>
         </div>
       </div>
 
-      <table className="user-table">
-        <thead className="text-dark">
-          <tr>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody className="text-white">
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.username}</td>
-              <td>{user.role}</td>
-              <td>
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDelete(user._id)}
-                >
-                  Delete
-                </button>
-              </td>
+      {isLoading ? (
+        <div className="text-center mt-5">
+          <span className="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
+        </div>
+      ) : (
+        <table className="user-table">
+          <thead className="text-dark">
+            <tr>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="text-white">
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>{user.username}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button className="delete-btn" onClick={() => handleDelete(user._id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       {showConfirmModal && (
         <div className="confirm-modal">
           <h2 className="text-warning">Confirm Delete</h2>
-         
-          <p className="text-white">
-            {" "}
-            Are you sure you want to delete this user?
-          </p>
+
+          <p className="text-white"> Are you sure you want to delete this user?</p>
           <button className="btn btn-danger mx-1" onClick={confirmDelete}>
             Delete
           </button>

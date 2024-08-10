@@ -8,7 +8,7 @@ const ManageCars = () => {
   const [sortField, setSortField] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
   const apiUrl = process.env.REACT_APP_API_URL;
-
+  const [isLoading, setIsLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -39,11 +39,15 @@ const ManageCars = () => {
   };
   
   const fetchCars = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${apiUrl}/api/cars/getCars`);
       setCars(response.data);
     } catch (error) {
       console.error('Error fetching cars:', error);
+    }
+    finally {
+      setIsLoading(false); // Set loading to false after receiving data (or error)
     }
   };
 
@@ -104,45 +108,50 @@ const handleMangeUsers=()=>{
         <button className='btn mx-2 my-1 btn-warning ' onClick={handleMangeUsers}>
           Manage users
         </button>
-      <div className="table-container">
-        <table className="table table-striped mt-3">
-        <thead>
-              <tr>
-                <th>
-                  <button onClick={() => handleSort('name')}>
-                    {sortField === 'name' ? `Sorted by Name ${sortOrder === 'asc' ? '▲' : '▼'}` : 'Name'}
-                  </button>
-                </th>
-                <th>
-                  <button onClick={() => handleSort('manufacturingYear')}>
-                    {sortField === 'manufacturingYear' ? `Sorted by Manufacturing Year ${sortOrder === 'asc' ? '▲' : '▼'}` : 'Manufacturing Year'}
-                  </button>
-                </th>
-                <th>
-                  <button onClick={() => handleSort('price')}>
-                    {sortField === 'price' ? `Sorted by Price ${sortOrder === 'asc' ? '▲' : '▼'}` : 'Price'}
-                  </button>
-                </th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-          <tbody>
-            {cars.map((car) => (
-              <tr key={car._id}>
-                <td>{car.name}</td>
-                <td>{car.manufacturingYear}</td>
-                <td>{car.price}</td>
-                <td>
-                  <button className="btn btn-primary me-2" onClick={() => openEditModal(car)}>Edit</button>
-                  <button className="btn btn-danger" onClick={() => openDeleteModal(car)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {isLoading ? (
+          <div className="text-center mt-5">
+            <span className="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
+          </div>
+        ) : (<div className="table-container">
+          <table className="table table-striped mt-3">
+          <thead>
+                <tr>
+                  <th>
+                    <button onClick={() => handleSort('name')}>
+                      {sortField === 'name' ? `Sorted by Name ${sortOrder === 'asc' ? '▲' : '▼'}` : 'Name'}
+                    </button>
+                  </th>
+                  <th>
+                    <button onClick={() => handleSort('manufacturingYear')}>
+                      {sortField === 'manufacturingYear' ? `Sorted by Manufacturing Year ${sortOrder === 'asc' ? '▲' : '▼'}` : 'Manufacturing Year'}
+                    </button>
+                  </th>
+                  <th>
+                    <button onClick={() => handleSort('price')}>
+                      {sortField === 'price' ? `Sorted by Price ${sortOrder === 'asc' ? '▲' : '▼'}` : 'Price'}
+                    </button>
+                  </th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+  
+            <tbody>
+              {cars.map((car) => (
+                <tr key={car._id}>
+                  <td>{car.name}</td>
+                  <td>{car.manufacturingYear}</td>
+                  <td>{car.price}</td>
+                  <td>
+                    <button className="btn btn-primary me-2" onClick={() => openEditModal(car)}>Edit</button>
+                    <button className="btn btn-danger" onClick={() => openDeleteModal(car)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        
+        </div>)}
       
-      </div>
 
       {showAddModal && (
         <div className="modal show" style={{ display: 'block' }}>
