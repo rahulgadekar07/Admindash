@@ -7,7 +7,7 @@ require('dotenv').config();
 // Middleware
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000' // Change this to your frontend's deployed URL when you deploy it
+ origin: '*',
 }));
 app.use(express.json());
 app.get("/",(req,res)=>{
